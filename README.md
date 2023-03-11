@@ -4,15 +4,15 @@
 后台：nodejs+mysql
 前台：Vue3+Element-Plus
 
-#拉取
+# 拉取
 ```
 git clone https://github.com/Fairy-qun/community_vaccine_manager.git
 ```
-#安装
+# 安装
 ```
 npm install
 ```
-#启动
+# 启动
 ```
 npm run dev
 ```
