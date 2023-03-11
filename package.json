@@ -1,0 +1,19 @@
+{
+  "name": "back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "/bin/www.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon bin/www.js",
+    "build": "cross-env NODE_ENV=production nodemon bin/www.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/router": "^12.0.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.3",
+    "koa": "^2.14.1"
+  }
+}
