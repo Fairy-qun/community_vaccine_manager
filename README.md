@@ -3,3 +3,8 @@
 技术选型：
 后台：nodejs+mysql
 前台：Vue3+Element-Plus
+
+#拉取
+```
+git clone
+```
