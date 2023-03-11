@@ -6,5 +6,13 @@
 
 #拉取
 ```
-git clone
+git clone https://github.com/Fairy-qun/community_vaccine_manager.git
+```
+#安装
+```
+npm install
+```
+#启动
+```
+npm run dev
 ```
