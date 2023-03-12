@@ -36,8 +36,20 @@ npm run dev
 npm install dotenv
 ```
 
-##### 添加路由
+##### 2. 添加路由
 
 ```
 npm install @koa/router
+```
+
+##### 3.解析 body
+
+```
+npm install koa-body
+```
+
+##### 4.集成 sequelize,用于操作数据库
+
+```
+npm install sequelize mysql2
 ```
