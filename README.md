@@ -53,3 +53,9 @@ npm install koa-body
 ```
 npm install sequelize mysql2
 ```
+
+##### 5.使用 bcrypt.js 对密码进行加密
+
+```
+npm install bcryptjs
+```

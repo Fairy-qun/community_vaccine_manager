@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs')
+
 const { success, fail } = require('../content')
 const { getUserInfo } = require('../service/userService')
 
@@ -6,7 +8,6 @@ const userValidator = async (ctx, next) => {
    * 去判断填入字段的是否完整，检验合理性
    */
   const data = ctx.request.body
-  delete data.user_role
   for (let key in data) {
     if (!data[key]) {
       ctx.status = 400
@@ -29,9 +30,22 @@ const verifyUser = async (ctx, next) => {
     ctx.body = fail({ msg: '该用户已存在，请重新注册' })
     return
   }
+  await next()
+}
+
+/**
+ * 加密中间件
+ */
+const bcryPassword = async (ctx, next) => {
+  const { user_password } = ctx.request.body
+  const salt = bcrypt.genSaltSync(10)
+  const hash = bcrypt.hashSync(user_password, salt)
+  ctx.request.body.user_password = hash
+  await next()
 }
 
 module.exports = {
   userValidator,
-  verifyUser
+  verifyUser,
+  bcryPassword
 }

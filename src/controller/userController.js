@@ -9,13 +9,15 @@ class UserController {
     // 2.操作数据库
     const res = await createUser(user_name, user_password, user_gender, user_mobile, user_numberId, user_role)
     // 3.返回结果
-    ctx.body = {
-      code: 0,
-      data: {
-        id: res.id,
-        user_name: res.user_name
-      },
-      msg: '注册用户成功'
+    if (res) {
+      ctx.body = {
+        code: 0,
+        data: {
+          id: res.id,
+          user_name: res.user_name
+        },
+        msg: '注册用户成功'
+      }
     }
   }
 
