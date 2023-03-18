@@ -4,6 +4,7 @@ const { fail } = require('../content')
 const auth = async (ctx, next) => {
   const { authorization } = ctx.request.header
   const token = authorization.replace('Bearer ', '')
+  // console.log(token)
 
   try {
     // user中包含了payload的信息(id, user_name, is_admin)
@@ -20,6 +21,18 @@ const auth = async (ctx, next) => {
   await next()
 }
 
+/**
+ * 验证用户是否具有管理员权限
+ */
+const isHasAdminPermission = async (ctx, next) => {
+  const { user_role } = ctx.state.user
+  if (!user_role) {
+    return (ctx.body = fail({ msg: '该用户没有管理员权限' }))
+  }
+  await next()
+}
+
 module.exports = {
-  auth
+  auth,
+  isHasAdminPermission
 }

@@ -7,6 +7,6 @@ const userRouter = new Router({ prefix: '/users' })
 
 userRouter.post('/register', userValidator, verifyUser, bcryPassword, register)
 userRouter.post('/login', userValidator, verifyLogin, login)
-userRouter.patch('/reset', auth, bcryPassword, reset)
+userRouter.post('/reset', auth, bcryPassword, reset)
 
 module.exports = userRouter
