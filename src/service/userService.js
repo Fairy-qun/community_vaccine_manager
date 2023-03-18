@@ -30,6 +30,23 @@ class UserService {
     })
     return res ? res.dataValues : null
   }
+
+  // 根据相应字段更新数据
+  async updateById({ id, user_name, user_password, user_mobile, user_numberId, user_role, user_gender }) {
+    const whereObj = { id }
+    const newUser = {}
+    user_name && Object.assign(newUser, { user_name })
+    user_password && Object.assign(newUser, { user_password })
+    user_mobile && Object.assign(newUser, { user_mobile })
+    user_numberId && Object.assign(newUser, { user_numberId })
+    user_role && Object.assign(newUser, { user_role })
+    user_gender && Object.assign(newUser, { user_gender })
+
+    console.log(whereObj)
+    console.log(newUser)
+    const res = await User.update(newUser, { where: whereObj })
+    return res[0] > 0 ? true : false
+  }
 }
 
 module.exports = new UserService()

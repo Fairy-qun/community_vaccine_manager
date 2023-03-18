@@ -1,10 +1,12 @@
 const Router = require('@koa/router')
-const { userValidator, verifyUser, bcryPassword } = require('../middlewares/userMiddleware')
-const { register, login } = require('../controller/userController')
+const { userValidator, verifyUser, bcryPassword, verifyLogin } = require('../middlewares/userMiddleware')
+const { auth } = require('../middlewares/userAuthMiddleware')
+const { register, login, reset } = require('../controller/userController')
 
 const userRouter = new Router({ prefix: '/users' })
 
 userRouter.post('/register', userValidator, verifyUser, bcryPassword, register)
-userRouter.post('/login', login)
+userRouter.post('/login', userValidator, verifyLogin, login)
+userRouter.patch('/reset', auth, bcryPassword, reset)
 
 module.exports = userRouter

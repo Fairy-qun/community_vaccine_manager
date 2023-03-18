@@ -1,4 +1,8 @@
-const { createUser } = require('../service/userService')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
+const { JWT_SECRET } = require('../config/config.default')
+const { createUser, getUserInfo, updateById } = require('../service/userService')
+const { fail, success } = require('../content')
 
 class UserController {
   // 注册
@@ -23,7 +27,28 @@ class UserController {
 
   // 登录
   async login(ctx, next) {
-    ctx.body = '用户登录成功'
+    const { user_name } = ctx.request.body
+    // 查询数据
+    const { password, ...res } = await getUserInfo({ user_name })
+    ctx.body = {
+      code: 0,
+      data: {
+        token: jwt.sign(res, JWT_SECRET, { expiresIn: '1d' })
+      },
+      msg: '用户登录成功'
+    }
+  }
+
+  // 修改密码
+  async reset(ctx, next) {
+    const { user_password } = ctx.request.body
+    const { id, user_name } = ctx.state.user
+    const res = await updateById({ id, user_password })
+    if (res) {
+      ctx.body = success({ data: { user_name: user_name }, msg: '修改密码成功' })
+    } else {
+      ctx.body = fail({ msg: '修改密码失败' })
+    }
   }
 }
 

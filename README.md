@@ -59,3 +59,9 @@ npm install sequelize mysql2
 ```
 npm install bcryptjs
 ```
+
+##### 6.安装 token,进行令牌颁发
+
+```
+npm install jsonwebtoken
+```

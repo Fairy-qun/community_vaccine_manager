@@ -44,8 +44,33 @@ const bcryPassword = async (ctx, next) => {
   await next()
 }
 
+/**
+ * 验证登录
+ */
+const verifyLogin = async (ctx, next) => {
+  // 判断用户是否存在
+  const { user_name, user_password } = ctx.request.body
+  try {
+    const res = await getUserInfo({ user_name })
+    if (!res) {
+      ctx.body = fail({ msg: '用户名不存在' })
+      return
+    }
+    // 判断用户输入的密码是否正确
+    if (!bcrypt.compareSync(user_password, res.user_password)) {
+      ctx.body = fail({ msg: '密码错误' })
+      return
+    }
+  } catch (error) {
+    console.error(error)
+    return
+  }
+  await next()
+}
+
 module.exports = {
   userValidator,
   verifyUser,
-  bcryPassword
+  bcryPassword,
+  verifyLogin
 }
