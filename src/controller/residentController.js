@@ -1,5 +1,5 @@
 const { success } = require('../content')
-const { createResident } = require('../service/residentService')
+const { createResident, getResidentInfo } = require('../service/residentService')
 
 class ResidentController {
   // 添加居民信息
@@ -15,6 +15,19 @@ class ResidentController {
         msg: '添加居民信息成功'
       })
     }
+  }
+
+  // 获取居民信息
+  async getInfo(ctx, next) {
+    const res = await getResidentInfo()
+    const info = []
+    res.map(item => {
+      info.push(item.dataValues)
+    })
+    ctx.body = success({
+      data: info,
+      msg: '获取居民信息成功'
+    })
   }
 }
 

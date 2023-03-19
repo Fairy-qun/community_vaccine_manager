@@ -25,6 +25,12 @@ class ResidentService {
     })
     return res ? res.dataValues : null
   }
+
+  // 获取居民信息
+  async getResidentInfo() {
+    const res = await Resident.findAll()
+    return res
+  }
 }
 
 module.exports = new ResidentService()
