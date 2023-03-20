@@ -27,9 +27,16 @@ class ResidentService {
   }
 
   // 获取居民信息
-  async getResidentInfo() {
-    const res = await Resident.findAll()
-    return res
+  async getResidentInfo({ pageNo, pageSize }) {
+    console.log(pageNo, pageSize)
+    const res = await Resident.findAndCountAll({
+      offset: parseInt((pageNo - 1) * pageSize),
+      limit: parseInt(pageSize)
+    })
+    // console.log(res.rows)
+    // console.log(res.count)
+    res.rows.unshift(res.count)
+    return res.rows
   }
 }
 

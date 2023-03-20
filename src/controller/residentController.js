@@ -19,15 +19,24 @@ class ResidentController {
 
   // 获取居民信息
   async getInfo(ctx, next) {
-    const res = await getResidentInfo()
-    const info = []
-    res.map(item => {
-      info.push(item.dataValues)
-    })
-    ctx.body = success({
-      data: info,
-      msg: '获取居民信息成功'
-    })
+    let pageNo
+    let pageSize
+    if (ctx.request.body === undefined) {
+      pageNo = 1
+      pageSize = 10
+    } else {
+      pageNo = ctx.request.body.pageNo
+      pageSize = ctx.request.body.pageSize
+    }
+    const res = await getResidentInfo({ pageNo, pageSize })
+    const count = res[0]
+    const result = res.slice(1)
+    ctx.body = {
+      code: 0,
+      data: result,
+      total_count: count,
+      msg: '获取数据成功'
+    }
   }
 }
 
