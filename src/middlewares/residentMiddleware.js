@@ -1,5 +1,5 @@
 const { fail } = require('../content')
-const { getResidentInfo } = require('../service/residentService')
+const { getResidentInfoBy } = require('../service/residentService')
 
 // 验证字段是否填写完整
 const residentValidator = async (ctx, next) => {
@@ -20,7 +20,7 @@ const residentValidator = async (ctx, next) => {
 const verifyResident = async (ctx, next) => {
   const { resident_numberId, resident_mobile } = ctx.request.body
 
-  const res = await getResidentInfo({ resident_numberId })
+  const res = await getResidentInfoBy({ resident_numberId })
   if (res) {
     ctx.body = fail({
       msg: '不能重复添加同一人信息'

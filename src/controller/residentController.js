@@ -1,5 +1,5 @@
 const { success } = require('../content')
-const { createResident, getResidentInfo } = require('../service/residentService')
+const { createResident, getResidentInfo, getResidentInfoBy } = require('../service/residentService')
 
 class ResidentController {
   // 添加居民信息
@@ -36,6 +36,18 @@ class ResidentController {
       data: result,
       total_count: count,
       msg: '获取数据成功'
+    }
+  }
+
+  // 条件查询居民信息
+  async getInfoBy(ctx, next) {
+    const { id, resident_name, resident_gender, resident_age, resident_mobile, resident_numberId, resident_address, resident_isInoculateFirst, resident_isInoculateSecond, resident_isInoculateThird } = ctx.request.body
+    const res = await getResidentInfoBy({ id, resident_name, resident_gender, resident_age, resident_mobile, resident_numberId, resident_address, resident_isInoculateFirst, resident_isInoculateSecond, resident_isInoculateThird })
+    if (res) {
+      ctx.body = success({
+        data: res,
+        msg: '查询数据成功'
+      })
     }
   }
 }
