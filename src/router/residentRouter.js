@@ -1,6 +1,6 @@
 const Router = require('@koa/router')
 
-const { createInfo, getInfo, getInfoBy } = require('../controller/residentController')
+const { createInfo, getInfo, getInfoBy, updateInfo } = require('../controller/residentController')
 const { auth } = require('../middlewares/userAuthMiddleware')
 const { residentValidator, verifyResident } = require('../middlewares/residentMiddleware')
 
@@ -12,5 +12,6 @@ residentRouter.post('/createInfo', auth, residentValidator, verifyResident, crea
 residentRouter.post('/getInfo', auth, getInfo)
 // 条件查询
 residentRouter.post('/getInfoBy', getInfoBy)
-
+// 更新居民信息
+residentRouter.post('/updateInfo', updateInfo)
 module.exports = residentRouter

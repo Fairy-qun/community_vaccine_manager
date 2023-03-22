@@ -1,5 +1,5 @@
-const { success } = require('../content')
-const { createResident, getResidentInfo, getResidentInfoBy } = require('../service/residentService')
+const { success, fail } = require('../content')
+const { createResident, getResidentInfo, getResidentInfoBy, updateInfoById } = require('../service/residentService')
 
 class ResidentController {
   // 添加居民信息
@@ -47,6 +47,22 @@ class ResidentController {
       ctx.body = success({
         data: res,
         msg: '查询数据成功'
+      })
+    }
+  }
+
+  // 更新居民信息
+  async updateInfo(ctx, next) {
+    if (ctx.request.body === undefined) {
+      return (ctx.body = fail({
+        msg: '必须传递id进行查询'
+      }))
+    }
+    const data = ctx.request.body
+    const res = await updateInfoById({ data })
+    if (res) {
+      ctx.body = success({
+        msg: '更新数据成功'
       })
     }
   }

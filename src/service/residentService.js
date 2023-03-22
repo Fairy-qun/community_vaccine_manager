@@ -38,6 +38,27 @@ class ResidentService {
     res.rows.unshift(res.count)
     return res.rows
   }
+
+  // 更新居民信息
+  async updateInfoById({ data }) {
+    const { id, resident_name, resident_gender, resident_age, resident_mobile, resident_numberId, resident_address, resident_isInoculateFirst, resident_isInoculateSecond, resident_isInoculateThird } = data
+    const whereObj = { id }
+    const newUser = {}
+    resident_name && Object.assign(newUser, { resident_name })
+    resident_gender && Object.assign(newUser, { resident_gender })
+    resident_age && Object.assign(newUser, { resident_age })
+    resident_mobile && Object.assign(newUser, { resident_mobile })
+    resident_numberId && Object.assign(newUser, { resident_numberId })
+    resident_address && Object.assign(newUser, { resident_address })
+    resident_isInoculateFirst && Object.assign(newUser, { resident_isInoculateFirst })
+    resident_isInoculateSecond && Object.assign(newUser, { resident_isInoculateSecond })
+    resident_isInoculateThird && Object.assign(newUser, { resident_isInoculateThird })
+
+    const res = await Resident.update(newUser, {
+      where: whereObj
+    })
+    return res[0] > 0 ? true : false
+  }
 }
 
 module.exports = new ResidentService()
