@@ -1,5 +1,5 @@
 const { success, fail } = require('../content')
-const { createResident, getResidentInfo, getResidentInfoBy, updateInfoById } = require('../service/residentService')
+const { createResident, getResidentInfo, getResidentInfoBy, updateInfoById, deleteInfo } = require('../service/residentService')
 
 class ResidentController {
   // 添加居民信息
@@ -43,11 +43,13 @@ class ResidentController {
   async getInfoBy(ctx, next) {
     const { id, resident_name, resident_gender, resident_age, resident_mobile, resident_numberId, resident_address, resident_isInoculateFirst, resident_isInoculateSecond, resident_isInoculateThird } = ctx.request.body
     const res = await getResidentInfoBy({ id, resident_name, resident_gender, resident_age, resident_mobile, resident_numberId, resident_address, resident_isInoculateFirst, resident_isInoculateSecond, resident_isInoculateThird })
-    if (res) {
+    if (res.length !== 0) {
       ctx.body = success({
         data: res,
         msg: '查询数据成功'
       })
+    } else {
+      ctx.body = fail({ msg: '查询数据失败' })
     }
   }
 
@@ -64,6 +66,24 @@ class ResidentController {
       ctx.body = success({
         msg: '更新数据成功'
       })
+    }
+  }
+
+  // 删除居民信息
+  async deleteInfo(ctx, next) {
+    if (ctx.request.body === undefined) {
+      ctx.body = fail({
+        msg: '所需参数id不能为空'
+      })
+      return
+    }
+    const idArr = ctx.request.body.id
+    const { id } = ctx.request.body
+    const res = await deleteInfo(idArr)
+    if (res) {
+      ctx.body = success({ msg: '删除数据成功' })
+    } else {
+      ctx.body = fail({ msg: '删除数据失败' })
     }
   }
 }

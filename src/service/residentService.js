@@ -59,6 +59,19 @@ class ResidentService {
     })
     return res[0] > 0 ? true : false
   }
+
+  // 删除居民信息
+  async deleteInfo(idArr) {
+    const whereObj = {
+      id: ''
+    }
+    console.log(idArr)
+    whereObj.id = idArr
+    const res = await Resident.destroy({
+      where: whereObj
+    })
+    return res > 0 ? true : false
+  }
 }
 
 module.exports = new ResidentService()
