@@ -9,15 +9,15 @@ const vaccineRouter = new Router({ prefix: '/vaccine' })
 vaccineRouter.post('/createInfo', auth, createInfo)
 
 // 修改疫苗信息
-vaccineRouter.post('/updateInfo', updateInfo)
+vaccineRouter.post('/updateInfo', auth, updateInfo)
 
 // 删除疫苗信息
-vaccineRouter.post('/deleteInfo', deleteInfo)
+vaccineRouter.post('/deleteInfo', auth, deleteInfo)
 
 // 查询疫苗信息
-vaccineRouter.post('/getInfo', getInfo)
+vaccineRouter.post('/getInfo', auth, getInfo)
 
 // 条件查询
-vaccineRouter.post('/getInfoBy', getInfoBy)
+vaccineRouter.post('/getInfoBy', auth, getInfoBy)
 
 module.exports = vaccineRouter
