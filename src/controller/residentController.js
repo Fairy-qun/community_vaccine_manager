@@ -1,7 +1,14 @@
 const { success, fail } = require('../content')
-const { createResident, getResidentInfo, getResidentInfoBy, updateInfoById, deleteInfo } = require('../service/residentService')
+const { createResident, getResidentInfo, getResidentInfoBy, updateInfoById, deleteInfo, getInfoAll } = require('../service/residentService')
 
 class ResidentController {
+  // 导出数据
+  async exportInfo(ctx, next) {
+    const res = await getInfoAll()
+    if (res) {
+      ctx.body = success({ data: res, message: '获取数据成功' })
+    }
+  }
   // 添加居民信息
   async createInfo(ctx, next) {
     // 1.获取数据

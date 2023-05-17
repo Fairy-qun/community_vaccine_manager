@@ -16,7 +16,6 @@ class InoculatePointService {
     const res = await InoculatePoint.update(newInoculatePoint, {
       where: whereObj
     })
-
     return res > 0 ? true : false
   }
 
@@ -29,21 +28,27 @@ class InoculatePointService {
   }
 
   // 查询信息
-  async getInfo(data) {
-    const { pageNo, pageSize, id, inoculatePoint_name, inoculatePoint_address, inoculatePoint_state } = data
+  async getInfo({ pageNo, pageSize, data }) {
+    const res = await InoculatePoint.findAndCountAll({
+      offset: parseInt((pageNo - 1) * pageSize),
+      limit: parseInt(pageSize)
+    })
+    res.rows.unshift(res.count)
+    return res.rows
+  }
+  // 条件查询
+  async getInfoBy({ data }) {
+    const { id, inoculatePoint_name, inoculatePoint_address, inoculatePoint_state } = data
     const whereObj = {}
     id && Object.assign(whereObj, { id })
     inoculatePoint_name && Object.assign(whereObj, { inoculatePoint_name })
     inoculatePoint_address && Object.assign(whereObj, { inoculatePoint_address })
     inoculatePoint_state && Object.assign(whereObj, { inoculatePoint_state })
 
-    const res = await InoculatePoint.findAndCountAll({
-      offset: parseInt((pageNo - 1) * pageSize),
-      limit: parseInt(pageSize),
+    const res = await InoculatePoint.findAll({
       where: whereObj
     })
-    return res.rows
-    // return res.rows
+    return res ? res : null
   }
 }
 

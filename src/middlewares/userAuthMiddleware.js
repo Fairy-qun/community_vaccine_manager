@@ -2,9 +2,14 @@ const jwt = require('jsonwebtoken')
 const { JWT_SECRET } = require('../config/config.default')
 const { fail } = require('../content')
 const auth = async (ctx, next) => {
-  const { authorization } = ctx.request.header
-  const token = authorization.replace('Bearer ', '')
+  // const { authorization } = ctx.request.header
+  // console.log(ctx.request)
+  // const token = authorization.replace('Bearer ', '')
   // console.log(token)
+  // console.log(ctx.request.header)
+  const { authorization } = ctx.request.header
+  // const token = authorization.replace('Bearer ', '')
+  console.log(authorization)
 
   try {
     // user中包含了payload的信息(id, user_name, is_admin)

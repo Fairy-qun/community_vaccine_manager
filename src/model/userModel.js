@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize')
 const seq = require('../db/seq')
+const Role = require('../model/roleModel')
 
 // 创建User模型
 const User = seq.define('user', {
@@ -14,25 +15,27 @@ const User = seq.define('user', {
     allowNull: false,
     comment: '用户密码'
   },
-  user_gender: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    comment: '用户性别'
-  },
+  // user_gender: {
+  //   type: DataTypes.STRING,
+  //   allowNull: false,
+  //   comment: '用户性别'
+  // },
   user_mobile: {
     type: DataTypes.STRING,
     allowNull: false,
-    comment: '用户手机号'
+    unique: true,
+    comment: '用户手机号(唯一)'
   },
   user_numberId: {
     type: DataTypes.STRING,
     allowNull: false,
-    comment: '用户身份证号'
+    unique: true,
+    comment: '用户身份证号(唯一)'
   },
   user_role: {
-    type: DataTypes.BOOLEAN,
+    type: DataTypes.TINYINT,
     allowNull: false,
-    defaultValue: 0,
+    defaultValue: 1,
     comment: '用户角色 0：管理员，1：普通用户'
   }
 })

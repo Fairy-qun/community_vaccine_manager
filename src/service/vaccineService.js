@@ -1,5 +1,10 @@
 const Vaccine = require('../model/vaccineModel')
 class VaccineService {
+  // 获取全部数据
+  async getInfoAll() {
+    const res = await Vaccine.findAll()
+    return res
+  }
   // 创建信息
   async createVaccine(data) {
     const res = await Vaccine.create(data)

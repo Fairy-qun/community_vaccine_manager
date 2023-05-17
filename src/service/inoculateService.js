@@ -28,11 +28,11 @@ class InoculateService {
 
   // 条件查询
   async getInfoBy({ data }) {
-    const { id, inoculate_name, inoculate_injection, inoculate_date } = data
+    const { id, inoculate_name, resident_name, inoculate_date } = data
     const whereObj = {}
     id && Object.assign(whereObj, { id })
     inoculate_name && Object.assign(whereObj, { inoculate_name })
-    inoculate_injection && Object.assign(whereObj, { inoculate_injection })
+    resident_name && Object.assign(whereObj, { resident_name })
     inoculate_date && Object.assign(whereObj, { inoculate_date })
 
     const res = await Inoculate.findAll({
@@ -43,12 +43,12 @@ class InoculateService {
 
   // 修改信息
   async updateInfo(data) {
-    const { id, inoculate_name, inoculate_injection, inoculate_date } = data
+    const { id, inoculate_name, vaccine_batch, inoculate_date } = data
 
     const whereObj = { id }
     const newInoculate = {}
     inoculate_name && Object.assign(newInoculate, { inoculate_name })
-    inoculate_injection && Object.assign(newInoculate, { inoculate_injection })
+    vaccine_batch && Object.assign(newInoculate, { vaccine_batch })
     inoculate_date && Object.assign(newInoculate, { inoculate_date })
 
     const res = await Inoculate.update(newInoculate, {

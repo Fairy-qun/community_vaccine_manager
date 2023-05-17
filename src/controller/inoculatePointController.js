@@ -1,5 +1,5 @@
 const { success, fail } = require('../content')
-const { createInfo, updateInfo, deleteInfo, getInfo } = require('../service/inoculatePointService')
+const { createInfo, updateInfo, deleteInfo, getInfo, getInfoBy } = require('../service/inoculatePointService')
 class InoculatePointController {
   // 添加信息
   async createInfo(ctx, next) {
@@ -14,7 +14,8 @@ class InoculatePointController {
 
   // 更新信息
   async updateInfo(ctx, next) {
-    if (ctx.request.body === undefined) {
+    const { id } = ctx.request.body
+    if (ctx.request.body === undefined || !id) {
       return (ctx.body = fail({ msg: '所需参数ID不能为空' }))
     }
     const data = ctx.request.body
@@ -42,31 +43,40 @@ class InoculatePointController {
 
   // 查询信息
   async getInfo(ctx, next) {
-    let data = {
-      pageNo: 1,
-      pageSize: 10
+    let pageNo
+    let pageSize
+    if (ctx.request.body === undefined) {
+      pageNo = 1
+      pageSize = 10
+    } else {
+      pageNo = ctx.request.body.pageNo
+      pageSize = ctx.request.body.pageSize
     }
-    const result = ctx.request.body
-    if (result !== undefined) {
-      for (let key in result) {
-        data[key] = result[key]
-      }
+    const data = ctx.request.body
+    const res = await getInfo({ pageNo, pageSize, data })
+    const count = res[0]
+    const result = res.slice(1)
+    ctx.body = {
+      code: 0,
+      data: result,
+      total_count: count,
+      msg: '获取数据成功'
     }
-    const res = await getInfo(data)
+  }
+  // 条件查询
+  async getInfoBy(ctx, next) {
+    if (ctx.request.body === undefined) {
+      return (ctx.body = fail({ msg: '所需id参数不能为空' }))
+    }
+    const data = ctx.request.body
+    const res = await getInfoBy({ data })
     if (res.length !== 0) {
-      const count = res.length
-      const data = []
-      res.forEach(item => {
-        data.push(item.dataValues)
-      })
-      return (ctx.body = {
-        code: 0,
-        data: data,
-        total: count,
-        msg: '获取数据成功'
+      ctx.body = success({
+        data: res,
+        msg: '查询数据成功'
       })
     } else {
-      ctx.body = fail({ msg: '获取数据失败，暂无数据' })
+      ctx.body = fail({ msg: '查询数据失败' })
     }
   }
 }

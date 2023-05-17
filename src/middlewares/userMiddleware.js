@@ -24,10 +24,24 @@ const verifyUser = async (ctx, next) => {
    * 检验用户注册的合理性
    */
   const { user_name } = ctx.request.body
-  const isHasValue = await getUserInfo({ user_name })
-  if (isHasValue) {
-    ctx.status = 409
+  const isHasName = await getUserInfo({ user_name })
+  if (isHasName) {
+    // ctx.status = 409
     ctx.body = fail({ msg: '该用户已存在，请重新注册' })
+    return
+  }
+  const { user_mobile } = ctx.request.body
+  const isHasMobile = await getUserInfo({ user_mobile })
+  if (isHasMobile) {
+    // ctx.status = 409
+    ctx.body = fail({ msg: '该手机号已被注册过' })
+    return
+  }
+  const { user_numberId } = ctx.request.body
+  const isHasNumberId = await getUserInfo({ user_numberId })
+  if (isHasNumberId) {
+    ctx.status = 409
+    ctx.body = fail({ msg: '该身份证已被注册过' })
     return
   }
   await next()
@@ -38,8 +52,8 @@ const verifyUser = async (ctx, next) => {
  */
 const bcryPassword = async (ctx, next) => {
   const { user_password } = ctx.request.body
-  const salt = bcrypt.genSaltSync(10)
-  const hash = bcrypt.hashSync(user_password, salt)
+  const salt = await bcrypt.genSaltSync(10)
+  const hash = await bcrypt.hashSync(user_password, salt)
   ctx.request.body.user_password = hash
   await next()
 }
@@ -53,12 +67,12 @@ const verifyLogin = async (ctx, next) => {
   try {
     const res = await getUserInfo({ user_name })
     if (!res) {
-      ctx.body = fail({ msg: '用户名不存在' })
+      ctx.body = fail({ msg: '用户不存在,请注册' })
       return
     }
     // 判断用户输入的密码是否正确
     if (!bcrypt.compareSync(user_password, res.user_password)) {
-      ctx.body = fail({ msg: '密码错误' })
+      ctx.body = fail({ msg: '密码错误,请重新输入' })
       return
     }
   } catch (error) {

@@ -1,5 +1,10 @@
 const Resident = require('../model/residentModel')
 class ResidentService {
+  // 获取全部数据
+  async getInfoAll() {
+    const res = await Resident.findAll()
+    return res
+  }
   // 添加居民信息
   async createResident(data) {
     const res = await Resident.create(data)

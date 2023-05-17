@@ -17,6 +17,10 @@ const Vaccine = seq.define('vaccine', {
     allowNull: false,
     comment: '疫苗种类'
   },
+  vaccine_img: {
+    type: DataTypes.STRING,
+    comment: '疫苗图片'
+  },
   vaccine_manufacturer: {
     type: DataTypes.STRING,
     allowNull: false,

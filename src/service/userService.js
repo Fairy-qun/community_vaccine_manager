@@ -1,4 +1,6 @@
 const User = require('../model/userModel')
+const Role = require('../model/roleModel')
+const { Model } = require('sequelize')
 class UserService {
   // 创建用户
   async createUser(user_name, user_password, user_gender, user_mobile, user_numberId, user_role) {
@@ -31,6 +33,12 @@ class UserService {
     return res ? res.dataValues : null
   }
 
+  // 查询所有用户
+  async getUserInfoAll() {
+    const res = await User.findAll()
+    return res
+  }
+
   // 根据相应字段更新数据
   async updateById({ id, user_name, user_password, user_mobile, user_numberId, user_role, user_gender }) {
     const whereObj = { id }
@@ -45,6 +53,7 @@ class UserService {
     console.log(whereObj)
     console.log(newUser)
     const res = await User.update(newUser, { where: whereObj })
+    console.log(res)
     return res[0] > 0 ? true : false
   }
 }

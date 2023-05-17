@@ -1,33 +1,14 @@
-const { createVaccine, updateInfo, deleteInfo, getInfo, getInfoBy, getInfoAll } = require('../service/vaccineService.js')
-const { success, fail } = require('../content')
-class VaccineController {
-  // 导出数据
-  async exportInfo(ctx, next) {
-    const res = await getInfoAll()
-    if (res) {
-      ctx.body = success({ data: res, message: '获取数据成功' })
-    }
-  }
-
+const { createInfo, deleteInfo, getInfo, getInfoBy } = require('../service/vaccineTypeService.js')
+const { success, fail } = require('../content/index.js')
+class VaccineTypeController {
   // 添加信息
   async createInfo(ctx, next) {
     const data = ctx.request.body
-    const res = await createVaccine(data)
+    const res = await createInfo(data)
     if (res) {
       ctx.body = success({ msg: '添加信息成功' })
     } else {
       fail({ msg: '添加信息失败' })
-    }
-  }
-
-  // 修改信息
-  async updateInfo(ctx, next) {
-    const data = ctx.request.body
-    const res = await updateInfo(data)
-    if (res) {
-      ctx.body = success({ msg: '修改信息成功' })
-    } else {
-      ctx.body = fail({ msg: '修改信息失败' })
     }
   }
 
@@ -86,4 +67,4 @@ class VaccineController {
   }
 }
 
-module.exports = new VaccineController()
+module.exports = new VaccineTypeController()

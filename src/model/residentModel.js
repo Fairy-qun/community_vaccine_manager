@@ -34,16 +34,22 @@ const Resident = seq.define('resident', {
     comment: '居住地址'
   },
   resident_isInoculateFirst: {
-    type: DataTypes.BOOLEAN,
-    comment: '是否接种第一针'
+    type: DataTypes.STRING,
+    comment: '是否接种第一针',
+    allowNull: true,
+    defaultValue: '是'
   },
   resident_isInoculateSecond: {
-    type: DataTypes.BOOLEAN,
-    comment: '是否接种第二针'
+    type: DataTypes.STRING,
+    comment: '是否接种第二针',
+    allowNull: true,
+    defaultValue: '是'
   },
   resident_isInoculateThird: {
-    type: DataTypes.BOOLEAN,
-    comment: '是否接种第三针或加强针'
+    type: DataTypes.STRING,
+    comment: '是否接种第三针或加强针',
+    allowNull: true,
+    defaultValue: '是'
   }
 })
 

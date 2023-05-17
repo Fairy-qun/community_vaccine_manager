@@ -2,6 +2,7 @@ const path = require('path')
 const Koa = require('koa')
 const KoaStatic = require('koa-static')
 const { koaBody } = require('koa-body')
+const cors = require('@koa/cors')
 
 const router = require('./router')
 router.prefix('/api')
@@ -20,6 +21,11 @@ app.use(
     }
   })
 )
+
+/**
+ * 设置跨域请求
+ */
+app.use(cors())
 
 /**
  * 加载静态资源
